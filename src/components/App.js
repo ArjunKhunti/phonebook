@@ -10,10 +10,10 @@ import ContactDetail from "./ContactDetails";
 import EditContact from "./EditContact";
 
 function App() {
-  const LOCAL_STORAGE_KEY = "contact";
+  const LOCAL_STORAGE_KEY = "contacts";
   const [contacts, setContacts] = useState([]);
-  const [seachTerm, setSearchTerm] = useState("");
-  const [seachResult, setSearchResult] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [searchResult, setSearchResult] = useState([]);
 
   const retriveContacts = async () => {
     const response = await api.get("/contacts");
@@ -34,7 +34,7 @@ function App() {
   const removeContactHandler = async (id) => {
     await api.delete(`/contacts/${id}`);
     const newContactList = contacts.filter((contact) => {
-      return contact.id != id;
+      return contact.id !== id;
     });
 
     setContacts(newContactList);
@@ -42,7 +42,7 @@ function App() {
 
   const updateContactHandler = async (contact) => {
     const response = await api.put(`/contacts/${contact.id}`, contact);
-    const { id, name, email } = response.data;
+    const { id } = response.data;
     setContacts(
       contacts.map((contact) => {
         return contact.id === id ? { ...response.data } : contact;
@@ -51,7 +51,7 @@ function App() {
   };
 
   const searchHandler = (searchTerm) => {
-    setSearchTerm(seachTerm);
+    setSearchTerm(searchTerm);
     if (searchTerm !== "") {
       const newContactList = contacts.filter((contact) => {
         return Object.values(contact)
@@ -77,7 +77,7 @@ function App() {
   }, []);
 
   useEffect(() => {
-    // localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(contacts));
+    //localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(contacts));
   }, [contacts]);
 
   return (
@@ -91,10 +91,10 @@ function App() {
             render={(props) => (
               <ContactList
                 {...props}
-                contacts={seachTerm.length < 1 ? contacts : seachResult}
+                contacts={searchTerm.length < 1 ? contacts : searchResult}
                 getContactId={removeContactHandler}
-                term={seachTerm}
-                seachKeyword={searchHandler}
+                term={searchTerm}
+                searchKeyword={searchHandler}
               />
             )}
           />

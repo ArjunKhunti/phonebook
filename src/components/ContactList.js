@@ -15,16 +15,15 @@ const ContactList = (props) => {
         contact={contact}
         clickHandler={deleteContactHandler}
         key={contact.id}
-      ></ContactCard>
+      />
     );
   });
 
   const getSearchTerm = () => {
-    props.seachKeyword(inputElement.current.value);
+    props.searchKeyword(inputElement.current.value);
   };
-
   return (
-    <div style={{ marginTop: "15%" }}>
+    <div className="main" style={{ marginTop: "5%" }}>
       <h2>
         Contact List
         <Link to="/add">
@@ -36,7 +35,7 @@ const ContactList = (props) => {
           <input
             ref={inputElement}
             type="text"
-            placeholder="Search"
+            placeholder="Search Contacts"
             className="prompt"
             value={props.term}
             onChange={getSearchTerm}
